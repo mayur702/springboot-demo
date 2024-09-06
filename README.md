@@ -33,7 +33,7 @@ Run the Application:
 Or, navigate to the target directory and run the packaged JAR file:
     
     cd target
-    java -jar mayurdevops-0.0.1-SNAPSHOT.jar
+    java -jar Mayurdevops-0.0.1-SNAPSHOT.jar
 
 
 Build Issues:
@@ -45,10 +45,10 @@ If the build fails, run Maven with detailed logging to diagnose the problem:
 
 Building and Running the Docker Image
 
-        docker build -t sendevops:latest .
+        docker build -t Mayurdevops:latest .
 
 Run the Docker Container:
 
-        docker run -p 8080:8080 sendevops:latest
+        docker run -p 8080:8080 Mayurdevops:latest
 
         
