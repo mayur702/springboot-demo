@@ -1,4 +1,4 @@
-package com.example.sendevops;
+package com.example.mayurdevops;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
