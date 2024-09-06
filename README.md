@@ -1,6 +1,7 @@
 # springboot-demo Implementation
 ## Result
-![image](https://github.com/mayur702/springboot-demo/src/main/images/Screenshot 2024-09-06 194503.png)
+![Screenshot 2024-09-06 194503](https://github.com/user-attachments/assets/bcbeb233-d296-415f-97d6-9802fc23abe4)
+
 
 ## 1. Run in the Local
 ### Requirement
