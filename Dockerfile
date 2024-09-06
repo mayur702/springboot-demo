@@ -19,4 +19,4 @@ RUN mvn clean package
 EXPOSE 8080
 
 # Command to run the JAR file
-ENTRYPOINT ["java", "-jar", "target/mayurdevops-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "target/Mayurdevops-0.0.1-SNAPSHOT.jar"]
