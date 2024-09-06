@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: springboot-app
-        image: mayur702/springboot1:latest
+        image: mayur702/springboot:latest
         ports:
         - containerPort: 8080
 
