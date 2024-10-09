@@ -35,24 +35,27 @@ pipeline {
             }
         }
         
+        stages {
         stage('Build') {
             steps {
-                sh "mvn package"
-            }
-        }
-        
-        stage('SonarQube Analysis') {
-            steps {
-                script {
-                    withSonarQubeEnv(credentialsId: 'sonar-token') {
-                        sh '''$SCANNER_HOME/bin/sonar-scanner \
-                            -Dsonar.projectName=spring-boot \
-                            -Dsonar.projectKey=spring-boot \
-                            -Dsonar.java.binaries=target'''
-                    }
+                withEnv(["JAVA_HOME=${tool 'jdk17'}", "MAVEN_HOME=${tool 'maven3'}"]) {
+                    sh 'mvn clean install'
                 }
             }
         }
+        stage('SonarQube Analysis') {
+            steps {
+                withEnv(["SCANNER_HOME=${tool 'SonarQubeScanner'}"]) {
+                    sh '''
+                    $SCANNER_HOME/bin/sonar-scanner \
+                    -Dsonar.projectName=spring-boot \
+                    -Dsonar.projectKey=spring-boot \
+                    -Dsonar.java.binaries=target
+                    '''
+                }
+            }
+        }
+    }
         stage('Docker build and tag') {
             steps {
                 sh "docker build -t mayur702/springboot:latest ."
