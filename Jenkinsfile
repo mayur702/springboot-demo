@@ -35,7 +35,6 @@ pipeline {
             }
         }
         
-        stages {
         stage('Build') {
             steps {
                 withEnv(["JAVA_HOME=${tool 'jdk17'}", "MAVEN_HOME=${tool 'maven3'}"]) {
@@ -43,9 +42,10 @@ pipeline {
                 }
             }
         }
+        
         stage('SonarQube Analysis') {
             steps {
-                withEnv(["SCANNER_HOME=${tool 'SonarQubeScanner'}"]) {
+                withEnv(["SCANNER_HOME=${tool 'sonar-scanner'}"]) {
                     sh '''
                     $SCANNER_HOME/bin/sonar-scanner \
                     -Dsonar.projectName=spring-boot \
@@ -55,30 +55,33 @@ pipeline {
                 }
             }
         }
-    }
+        
         stage('Docker build and tag') {
             steps {
                 sh "docker build -t mayur702/springboot:latest ."
             }
         }
-        stage('Trivy image Scan') {
+        
+        stage('Trivy Image Scan') {
             steps {
                 sh "trivy image mayur702/springboot:latest --format table -o image.html"
             }
         }
+        
         stage('Docker Push Image') {
             steps {
-                script{
+                script {
                     withDockerRegistry(credentialsId: 'dockerhub') {
                         sh "docker push mayur702/springboot:latest"
-                  }
+                    }
                 }
             }
         }
-        stage('Deploy to kubernets'){
-            steps{
-                script{
-                    withKubeConfig(caCertificate: '', clusterName: 'EKS_CLOUD', contextName: '', credentialsId: 'k8s', namespace: 'default', restrictKubeConfigAccess: false, serverUrl: 'https://07097807BBE26EC2C20EE1AAE9A6A0F8.gr7.ap-south-1.eks.amazonaws.com') {
+        
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    withKubeConfig(caCertificate: '', clusterName: 'EKS_CLOUD', contextName: '', credentialsId: 'k8s', namespace: 'default', restrictKubeConfigAccess: false, serverUrl: 'https://39D0C1D3251BA4C5D2BBA21907FDC7F4.gr7.ap-south-1.eks.amazonaws.com') {
                         sh "kubectl apply -f deployment.yaml"
                         sh "kubectl apply -f service.yaml"
                     }
